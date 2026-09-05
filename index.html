@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Positive Psychology</title>
+<style>
+  :root{
+    --pink:#FF3CAC;
+    --purple:#784BA0;
+    --blue:#2B86C5;
+    --yellow:#FFD93D;
+    --orange:#FF6B35;
+    --teal:#00D9C0;
+    --ink:#1B1140;
+    --paper:#FFF9F0;
+    --card:#FFFFFF;
+    --right:#00C48C;
+    --right-soft:#D7FBEF;
+    --wrong:#FF4D6D;
+    --wrong-soft:#FFE1E7;
+    --font:'Comic Sans MS','Comic Sans','Chalkboard SE','Marker Felt',cursive,sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    font-family:var(--font);
+    color:var(--ink);
+    background:linear-gradient(120deg,#FFDEE9,#B5FFFC,#FFF3B0,#E0C3FC);
+    background-size:400% 400%;
+    animation:bgShift 16s ease infinite;
+    line-height:1.65;
+  }
+
+  @keyframes bgShift{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+
+  header{
+    text-align:center;
+    padding:50px 16px 34px;
+    position:relative;
+  }
+
+  header h1{
+    margin:0;
+    font-size:clamp(1.8rem,6vw,3rem);
+    color:var(--ink);
+    -webkit-text-stroke:2px var(--ink);
+    background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--teal),var(--blue),var(--purple));
+    background-size:300% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:rainbow 6s linear infinite;
+    transform:rotate(-1.5deg);
+    display:inline-block;
+  }
+
+  @keyframes rainbow{
+    to{ background-position:300% center; }
+  }
+
+  header p{
+    margin:14px auto 0;
+    max-width:480px;
+    font-size:clamp(0.95rem,2.6vw,1.15rem);
+    font-weight:bold;
+    color:#3B2E63;
+  }
+
+  .confetti-bar{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:18px;
+    flex-wrap:wrap;
+  }
+  .confetti-bar span{
+    font-size:1.4rem;
+    display:inline-block;
+    animation:bounce 1.6s ease-in-out infinite;
+  }
+  .confetti-bar span:nth-child(2){ animation-delay:0.15s; }
+  .confetti-bar span:nth-child(3){ animation-delay:0.3s; }
+  .confetti-bar span:nth-child(4){ animation-delay:0.45s; }
+  .confetti-bar span:nth-child(5){ animation-delay:0.6s; }
+  @keyframes bounce{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
+  }
+
+  .container{
+    max-width:960px;
+    margin:0 auto;
+    padding:0 16px 70px;
+  }
+
+  /* Tabs */
+  .nav-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    margin:0 0 30px;
+    position:sticky;
+    top:8px;
+    z-index:10;
+  }
+
+  .tab-btn{
+    font-family:var(--font);
+    font-weight:bold;
+    font-size:clamp(0.78rem,2.3vw,0.95rem);
+    padding:11px 18px;
+    border-radius:50px;
+    border:3px solid var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    white-space:nowrap;
+  }
+
+  .tab-btn:hover{
+    transform:translate(-2px,-2px) rotate(-1deg);
+    box-shadow:6px 6px 0 var(--ink);
+  }
+
+  .tab-btn.active{
+    background:var(--pink);
+    color:#fff;
+    transform:translate(-2px,-2px) rotate(1deg) scale(1.03);
+    box-shadow:6px 6px 0 var(--ink);
+  }
+
+  .tab-btn:nth-child(2).active{ background:var(--orange); }
+  .tab-btn:nth-child(3).active{ background:var(--teal); }
+  .tab-btn:nth-child(4).active{ background:var(--blue); }
+  .tab-btn:nth-child(5).active{ background:var(--purple); }
+  .tab-btn:nth-child(6).active{ background:var(--yellow); color:var(--ink); }
+
+  .tab-content{ display:none; }
+  .tab-content.active{ display:block; animation:popIn 0.4s ease; }
+
+  @keyframes popIn{
+    from{ opacity:0; transform:scale(0.96) translateY(10px); }
+    to{ opacity:1; transform:scale(1) translateY(0); }
+  }
+
+  .card{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:26px;
+    padding:clamp(20px,4vw,34px);
+    margin-bottom:26px;
+    box-shadow:7px 7px 0 var(--ink);
+    position:relative;
+  }
+
+  .card h2{
+    margin-top:0;
+    font-size:clamp(1.25rem,3.6vw,1.7rem);
+    color:#fff;
+    display:inline-block;
+    padding:6px 18px;
+    border-radius:14px;
+    transform:rotate(-1deg);
+    box-shadow:3px 3px 0 var(--ink);
+  }
+
+  .card:nth-of-type(4n+1) h2{ background:var(--pink); }
+  .card:nth-of-type(4n+2) h2{ background:var(--blue); }
+  .card:nth-of-type(4n+3) h2{ background:var(--orange); }
+  .card:nth-of-type(4n+4) h2{ background:var(--purple); }
+
+  .card h3{
+    font-size:clamp(1.05rem,2.8vw,1.25rem);
+    margin-top:24px;
+    color:var(--purple);
+    text-decoration:underline wavy var(--pink) 2px;
+    text-underline-offset:5px;
+  }
+
+  .card h4{
+    font-size:1rem;
+    color:var(--orange);
+    margin:16px 0 6px;
+  }
+
+  p{ margin:0 0 12px; }
+  ul, ol{ padding-left:24px; margin:0 0 12px; }
+  li{ margin-bottom:10px; }
+
+  .highlight{
+    background:linear-gradient(120deg,var(--yellow) 0%,var(--yellow) 100%);
+    background-repeat:no-repeat;
+    background-size:100% 45%;
+    background-position:0 88%;
+    font-weight:bold;
+    padding:0 2px;
+  }
+
+  .tag{
+    display:inline-block;
+    font-weight:bold;
+    font-size:0.85em;
+    padding:2px 10px;
+    border-radius:20px;
+    color:#fff;
+    margin:0 3px 3px 0;
+  }
+  .tag.pink{ background:var(--pink); }
+  .tag.blue{ background:var(--blue); }
+  .tag.teal{ background:var(--teal); color:var(--ink); }
+  .tag.orange{ background:var(--orange); }
+  .tag.purple{ background:var(--purple); }
+
+  .grid-2{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+    margin-top:6px;
+  }
+
+  .inner-box{
+    background:#FFF6E9;
+    border:2px dashed var(--ink);
+    border-radius:18px;
+    padding:16px 18px;
+  }
+
+  /* Flashcards */
+  .flash-hint{
+    text-align:center;
+    font-weight:bold;
+    color:var(--purple);
+    margin-bottom:22px;
+    font-size:1.05rem;
+  }
+
+  .flashcard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:18px;
+  }
+
+  .flashcard{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:22px;
+    padding:22px;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:5px 5px 0 var(--ink);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .flashcard:nth-child(6n+1){ box-shadow:5px 5px 0 var(--pink); }
+  .flashcard:nth-child(6n+2){ box-shadow:5px 5px 0 var(--blue); }
+  .flashcard:nth-child(6n+3){ box-shadow:5px 5px 0 var(--orange); }
+  .flashcard:nth-child(6n+4){ box-shadow:5px 5px 0 var(--teal); }
+  .flashcard:nth-child(6n+5){ box-shadow:5px 5px 0 var(--purple); }
+  .flashcard:nth-child(6n+6){ box-shadow:5px 5px 0 var(--yellow); }
+
+  .flashcard:hover{
+    transform:translate(-3px,-3px) rotate(-1deg);
+  }
+
+  .flashcard.flipped{
+    background:#FFF3D6;
+    transform:scale(1.02);
+  }
+
+  .flashcard .question{
+    font-weight:bold;
+    font-size:1.02rem;
+    color:var(--ink);
+  }
+
+  .flashcard .answer{
+    display:none;
+    margin-top:14px;
+    color:var(--purple);
+    font-weight:bold;
+  }
+
+  .flashcard.flipped .question{ font-size:0.88rem; color:#8B7FAE; }
+  .flashcard.flipped .answer{ display:block; animation:popIn 0.25s ease; }
+
+  /* Quiz */
+  .quiz-q{ margin-bottom:30px; }
+  .quiz-q p{ font-weight:bold; font-size:1.05rem; }
+
+  .quiz-option{
+    display:block;
+    background:#FFF6E9;
+    padding:14px 16px;
+    margin:10px 0;
+    border-radius:16px;
+    border:2px solid var(--ink);
+    cursor:pointer;
+    font-weight:bold;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+
+  .quiz-option:hover{
+    transform:translateX(6px);
+    background:#FFE9BF;
+  }
+
+  .quiz-option.correct{
+    background:var(--right-soft) !important;
+    border-color:var(--right);
+    color:#00785A;
+    box-shadow:3px 3px 0 var(--right);
+  }
+
+  .quiz-option.wrong{
+    background:var(--wrong-soft) !important;
+    border-color:var(--wrong);
+    color:#B3223F;
+    box-shadow:3px 3px 0 var(--wrong);
+    animation:shake 0.35s ease;
+  }
+
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-6px); }
+    75%{ transform:translateX(6px); }
+  }
+
+  footer{
+    text-align:center;
+    padding:20px;
+    font-weight:bold;
+    color:#3B2E63;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width:640px){
+    header{ padding:34px 12px 22px; }
+    .nav-tabs{ position:static; gap:8px; }
+    .tab-btn{ padding:9px 14px; box-shadow:3px 3px 0 var(--ink); }
+    .card{ border-radius:20px; box-shadow:5px 5px 0 var(--ink); }
+    .card h2{ display:block; text-align:center; }
+    .grid-2{ grid-template-columns:1fr; }
+    .flashcard-grid{ grid-template-columns:1fr; }
+    .confetti-bar span{ font-size:1.1rem; }
+  }
+
+  @media (max-width:400px){
+    .tab-btn{ font-size:0.72rem; padding:8px 12px; }
+  }
+
+  svg.icon{
+    width:1.1em; height:1.1em;
+    fill:none; stroke:currentColor;
+    stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+    vertical-align:-0.2em;
+    margin-right:6px;
+  }
+
+  h2 svg.icon, .flash-hint svg.icon, footer svg.icon{
+    width:1.15em; height:1.15em;
+  }
+
+  .icon-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    color:#fff;
+  }
+  .icon-badge svg.icon{ margin-right:0; width:1.3em; height:1.3em; }
+  .icon-badge.b-pink{ background:var(--pink); }
+  .icon-badge.b-teal{ background:var(--teal); }
+  .icon-badge.b-yellow{ background:var(--yellow); color:var(--ink); }
+  .icon-badge.b-blue{ background:var(--blue); }
+  .icon-badge.b-orange{ background:var(--orange); }
+
+  @media (max-width:640px){
+    .icon-badge{ width:28px; height:28px; }
+  }
+</style>
+</head>
+<body>
+<svg style="display:none">
+<defs>
+<symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 15c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0"/><path d="M2 19c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0" opacity="0.5"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 15h8"/></symbol>
+<symbol id="i-muscle" viewBox="0 0 24 24"><rect x="2" y="9" width="3" height="6" rx="1"/><rect x="19" y="9" width="3" height="6" rx="1"/><rect x="5" y="10.5" width="3" height="3" rx="0.5"/><rect x="16" y="10.5" width="3" height="3" rx="0.5"/><line x1="8" y1="12" x2="16" y2="12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="4" y="6" width="12" height="15" rx="2" transform="rotate(-8 10 13)"/><rect x="8" y="3" width="12" height="15" rx="2"/></symbol>
+<symbol id="i-notepad" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></symbol>
+<symbol id="i-brain" viewBox="0 0 24 24"><path d="M9 3c-3 0-5 2-5 5 0 1 .3 2 .8 2.7C4.3 11.4 4 12.6 4 14c0 3 2 5 5 5h1"/><path d="M15 3c3 0 5 2 5 5 0 1-.3 2-.8 2.7.5.7.8 1.9.8 3.3 0 3-2 5-5 5h-1"/><path d="M12 3v16"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></symbol>
+<symbol id="i-spiral" viewBox="0 0 24 24"><path d="M12 12c3 0 3-4 0-4s-5 2-5 5 3 6 7 6 7-3 7-7-4-8-9-8"/></symbol>
+<symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 9c0-3 2-5 5-5 0 3-2 5-5 5z"/></symbol>
+<symbol id="i-medal" viewBox="0 0 24 24"><path d="M9 11 6 3"/><path d="M15 11 18 3"/><circle cx="12" cy="15" r="5"/><path d="M12 12.5v5"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14c1 1.5 2.5 2.3 4 2.3s3-.8 4-2.3"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/></symbol>
+<symbol id="i-pie" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l7.8 4.5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><line x1="4" y1="12" x2="18" y2="12"/><path d="M13 7l6 5-6 5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.9 6.3.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2-4.8-4.3 6.3-.6L12 3z"/></symbol>
+<symbol id="i-rainbow" viewBox="0 0 24 24"><path d="M3 17a9 9 0 0 1 18 0"/><path d="M6.5 17a5.5 5.5 0 0 1 11 0"/></symbol>
+<symbol id="i-balloon" viewBox="0 0 24 24"><path d="M12 3a5 5 0 0 1 5 5c0 3-2 5.5-4 6.5l.5 2h-3l.5-2c-2-1-4-3.5-4-6.5a5 5 0 0 1 5-5z"/><path d="M11 16.5l-1 4.5 2-1 1 1 1-1 1 1-1-4.5"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c1.5 3-1.5 4.5-1.5 7.5a3.5 3.5 0 0 0 7 0c0-1-.3-1.8-.8-2.3.6 3.8-1.2 6.3-3.7 6.3-2.8 0-4.5-2.2-4.5-5C8.5 5.8 10.5 4 12 2z"/></symbol>
+</defs>
+</svg>
+
+<header>
+  <h1>Positive Psychology </h1>
+  <p>Aaapke sir se achaa smjha dega yeh, ig</p>
+  <div class="confetti-bar">
+    
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event,'wave-unit')"><svg class="icon"><use href="#i-wave"/></svg>Foundations</button>
+    <button class="tab-btn" onclick="openTab(event,'east-west')"><svg class="icon"><use href="#i-globe"/></svg>East vs West</button>
+    <button class="tab-btn" onclick="openTab(event,'theories')"><svg class="icon"><use href="#i-flask"/></svg>Key Theories</button>
+    <button class="tab-btn" onclick="openTab(event,'wellbeing')"><svg class="icon"><use href="#i-muscle"/></svg>Well-Being</button>
+    <button class="tab-btn" onclick="openTab(event,'flashcards')"><svg class="icon"><use href="#i-cards"/></svg>Flashcards</button>
+    <button class="tab-btn" onclick="openTab(event,'quiz')"><svg class="icon"><use href="#i-notepad"/></svg>Quiz</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div id="wave-unit" class="tab-content active">
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-wave"/></svg>The Four Waves of Psychology</h2>
+      <p>Psychology has shifted across <span class="highlight">four big paradigms</span> over roughly the last 150 years.</p>
+
+      <h3>1st Wave — Disease Model / Psychoanalysis</h3>
+      <p>Pre-WWII to mid-20th century. Focused on pathology, mental illness, neurosis, and curing suffering.</p>
+      <div class="inner-box">
+        <p><b>Seligman's 3 criticisms of the disease model:</b></p>
+        <ol>
+          <li><span class="highlight">Pathologising human nature</span> — people treated as passive victims of trauma or drives, with no room for agency.</li>
+          <li><span class="highlight">Neglect of normal functioning</span> — talents, fulfilment, and potential were ignored.</li>
+          <li><span class="highlight">Repair over building</span> — the field focused on fixing damage, not building positive states.</li>
+        </ol>
+      </div>
+
+      <h3>2nd Wave — Behaviourism</h3>
+      <p>Early–mid 20th century — <i>B. F. Skinner, Ivan Pavlov, John B. Watson</i>. Psychology should measure only observable behaviour.</p>
+      <ul>
+        <li>Behaviour shaped by <span class="tag blue">operant &amp; classical conditioning</span>.</li>
+        <li>Dismissed internal mental states and free will as unscientific.</li>
+      </ul>
+
+      <h3>3rd Wave — Humanistic Psychology</h3>
+      <p>1950s–60s, the "third force" — <i>Abraham Maslow</i> and <i>Carl Rogers</i>.</p>
+      <ul>
+        <li>A rebound against determinism: free choice, self-actualisation, personal growth.</li>
+        <li><b>Drawback:</b> philosophically rich but lacked rigorous empirical testing.</li>
+      </ul>
+
+      <h3>4th Wave — Modern Positive Psychology</h3>
+      <p>1998–present, launched by <i>Martin Seligman</i>'s 1998 APA presidential address.</p>
+      <ul>
+        <li>Equal weight to flourishing, optimism, and strengths — not just illness.</li>
+        <li>Combines humanism's outlook with rigorous scientific method.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-brain"/></svg>Founding Pioneers</h2>
+      <div class="grid-2">
+        <div class="inner-box">
+          <h4>William James (1842–1910)</h4>
+          <p>America's first positive psychologist. In <i>The Varieties of Religious Experience</i> (1902), argued that optimal human potential was key to understanding the mind.</p>
+        </div>
+        <div class="inner-box">
+          <h4>Abraham Maslow (1908–1970)</h4>
+          <p>Coined <b>"Positive Psychology"</b> as a chapter heading in <i>Motivation and Personality</i> (1954). Built the Hierarchy of Needs, topped by Self-Actualisation.</p>
+        </div>
+        <div class="inner-box">
+          <h4>Martin Seligman (1942–present)</h4>
+          <p>Moved from Learned Helplessness to Learned Optimism and PERMA. The father of modern positive psychology.</p>
+        </div>
+        <div class="inner-box">
+          <h4>Christopher Peterson (1950–2012)</h4>
+          <p>Co-authored the VIA Classification with Seligman. Summed up the field in three words: <i>"Other people matter."</i></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="east-west" class="tab-content">
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-globe"/></svg>East vs. West</h2>
+      <p>Culture shapes how we conceptualise optimal functioning and life satisfaction.</p>
+
+      <div class="grid-2">
+        <div class="inner-box">
+          <h4>Western Paradigm</h4>
+          <ul>
+            <li>Individualism, autonomy, self-esteem, personal success.</li>
+            <li><span class="tag pink">Linear</span> thinking: goals → action → obstacles → progress.</li>
+            <li>Future-oriented: hope, optimism, planning.</li>
+            <li>Happiness via mastery, self-expression, achievement.</li>
+          </ul>
+        </div>
+        <div class="inner-box">
+          <h4>Eastern Paradigm</h4>
+          <ul>
+            <li>Collectivism, social harmony, interconnectedness, duty.</li>
+            <li><span class="tag teal">Circular</span> thinking: balance, ending suffering.</li>
+            <li>Present-moment awareness with respect for tradition.</li>
+            <li>Happiness via inner peace, self-control, adaptability.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Traditions in Brief</h3>
+      <ul>
+        <li><span class="tag orange">Athenian</span> Aristotle's <i>Eudaimonia</i> — happiness through virtue: courage, temperance, generosity, justice, truthfulness.</li>
+        <li><span class="tag purple">Judaism &amp; Christianity</span> divine order, faith, charity, forgiveness; the Seven Heavenly Virtues.</li>
+        <li><span class="tag blue">Islam</span> Gratitude (Shukr), Patience (Sabr), Charity (Zakat), brotherhood.</li>
+        <li><span class="tag pink">Confucianism</span> five core virtues — Jen (benevolence), Yi (righteousness), Li (propriety), Zhi (wisdom), Xin (sincerity).</li>
+        <li><span class="tag teal">Taoism</span> the Tao and Yin &amp; Yang — balance of opposites.</li>
+        <li><span class="tag orange">Buddhism</span> suffering (Dukkha), the Four Noble Truths, the Eightfold Path, and the 4 Brahma Viharas: Maitri, Karuna, Mudita, Upeksa.</li>
+        <li><span class="tag purple">Hinduism</span> interconnectedness (Brahman), self-realisation (Atman), Karma, and Moksha.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div id="theories" class="tab-content">
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-sparkle"/></svg>Seligman's PERMA Model (2011)</h2>
+      <p>From <i>Flourish</i> — five measurable, independent pillars of well-being:</p>
+      <ul>
+        <li><span class="highlight">P</span> — Positive Emotion: joy, warmth, hope, gratitude.</li>
+        <li><span class="highlight">E</span> — Engagement: full absorption, flow, time disappears.</li>
+        <li><span class="highlight">R</span> — Relationships: deep connections. "Other people matter."</li>
+        <li><span class="highlight">M</span> — Meaning: belonging to something bigger than yourself.</li>
+        <li><span class="highlight">A</span> — Accomplishment: mastery and goal attainment.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-spiral"/></svg>Csikszentmihalyi's Flow Theory</h2>
+      <p>A state of optimal experience and intense focus, from <i>Mihaly Csikszentmihalyi</i>.</p>
+      <div class="inner-box">
+        <p><b>Conditions for Flow:</b></p>
+        <ol>
+          <li><b>Challenge–skill balance:</b> too much challenge = anxiety; too little = boredom.</li>
+          <li>Clear, immediate feedback and unambiguous goals.</li>
+          <li>Merging of action and awareness.</li>
+          <li>Distorted sense of time.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-sprout"/></svg>Fredrickson's Broaden-and-Build Theory</h2>
+      <p>Barbara Fredrickson's account of why positive emotions evolved.</p>
+      <ul>
+        <li><b>Negative emotions</b> (fear, anger) narrow us toward fight-or-flight.</li>
+        <li><b>Positive emotions</b> (joy, interest, love) work differently:
+          <ol>
+            <li><span class="highlight">Broaden</span> — expand awareness, creativity, exploration.</li>
+            <li><span class="highlight">Build</span> — durable resources over time: resilience, skills, bonds.</li>
+          </ol>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-medal"/></svg>VIA Classification — 6 Virtues, 24 Strengths</h2>
+      <p>Created by Seligman &amp; Peterson as a positive counterweight to the DSM.</p>
+      <div class="grid-2">
+        <div class="inner-box">
+          <p><b>Wisdom &amp; Knowledge:</b> Creativity, Curiosity, Judgment, Love of Learning, Perspective.</p>
+          <p><b>Courage:</b> Bravery, Perseverance, Honesty, Zest.</p>
+          <p><b>Humanity:</b> Love, Kindness, Social Intelligence.</p>
+        </div>
+        <div class="inner-box">
+          <p><b>Justice:</b> Teamwork, Fairness, Leadership.</p>
+          <p><b>Temperance:</b> Forgiveness, Humility, Prudence, Self-Regulation.</p>
+          <p><b>Transcendence:</b> Beauty, Gratitude, Hope, Humour, Spirituality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4 -->
+  <div id="wellbeing" class="tab-content">
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-smile"/></svg>Models of Well-Being</h2>
+      <h3>Subjective Well-Being (Ed Diener)</h3>
+      <p>The scientific stand-in for "happiness" — three parts:</p>
+      <ul>
+        <li>High Positive Affect</li>
+        <li>Low Negative Affect (distress, anger, sadness)</li>
+        <li>High Life Satisfaction</li>
+      </ul>
+
+      <h3>Psychological Well-Being (Carol Ryff)</h3>
+      <p>Eudaimonic fulfilment across 6 dimensions:</p>
+      <ol>
+        <li><span class="highlight">Autonomy</span> — independence &amp; self-determination.</li>
+        <li><span class="highlight">Personal Growth</span> — development &amp; openness.</li>
+        <li><span class="highlight">Purpose in Life</span> — clear goals and meaning.</li>
+        <li><span class="highlight">Self-Acceptance</span> — positive self-attitude.</li>
+        <li><span class="highlight">Environmental Mastery</span> — managing complex circumstances.</li>
+        <li><span class="highlight">Positive Relations</span> — deep, trusting bonds.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-pie"/></svg>Lyubomirsky's Happiness Pie</h2>
+      <div class="inner-box">
+        <ul>
+          <li><span class="highlight">50% Genetic Set-Point</span> — inherited baseline traits.</li>
+          <li><span class="highlight">10% Life Circumstances</span> — wealth, geography, income (Hedonic Treadmill).</li>
+          <li><span class="highlight">40% Intentional Activities</span> — gratitude, exercise, relationships, goals!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-muscle"/></svg>Lifestyle Interventions for Flourishing</h2>
+      <ul>
+        <li><span class="tag pink">Exercise</span> raises BDNF, boosts endorphins/dopamine, cuts depression &amp; anxiety.</li>
+        <li><span class="tag teal">Nutrition</span> reduces inflammation, supports gut-made serotonin.</li>
+        <li><span class="tag blue">Sleep</span> — 7–9 hours regulates the amygdala &amp; consolidates memory.</li>
+        <li><span class="tag purple">Mindfulness</span> thickens the prefrontal cortex, shrinks the amygdala.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB 5 -->
+  <div id="flashcards" class="tab-content">
+    <p class="flash-hint"><svg class="icon"><use href="#i-arrow"/></svg>Tap a card to flip it and check your answer!</p>
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">What are the 5 elements of PERMA?</div>
+        <div class="answer">Positive Emotion, Engagement, Relationships, Meaning, Accomplishment.</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">Lyubomirsky's happiness pie breakdown?</div>
+        <div class="answer">50% Genetics, 10% Life Circumstances, 40% Intentional Activities.</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">Who co-authored VIA with Seligman?</div>
+        <div class="answer">Christopher Peterson (2004).</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">What produces Flow?</div>
+        <div class="answer">A balance of High Challenge and High Skill.</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">Fredrickson's theory name?</div>
+        <div class="answer">The Broaden-and-Build Theory.</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">3 components of SWB?</div>
+        <div class="answer">High Positive Affect, Low Negative Affect, High Life Satisfaction.</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">Linear vs Circular thinking?</div>
+        <div class="answer">Linear = goals &amp; obstacles (West). Circular = balance &amp; ending suffering (East).</div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="question">4 Brahma Viharas in Buddhism?</div>
+        <div class="answer">Maitri, Karuna, Mudita, Upeksa.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 6 -->
+  <div id="quiz" class="tab-content">
+    <div class="card">
+      <h2><svg class="icon"><use href="#i-notepad"/></svg>Quick Quiz</h2>
+
+      <div class="quiz-q">
+        <p>1. When did Seligman's APA address found positive psychology?</p>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">1954</div>
+        <div class="quiz-option" onclick="checkQuiz(this, true)">1998</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">2004</div>
+      </div>
+
+      <div class="quiz-q">
+        <p>2. Which is NOT one of Ryff's 6 dimensions?</p>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">Autonomy</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">Environmental Mastery</div>
+        <div class="quiz-option" onclick="checkQuiz(this, true)">Hedonic Treadmill Adaptation</div>
+      </div>
+
+      <div class="quiz-q">
+        <p>3. In Taoism, what represents balance of opposites?</p>
+        <div class="quiz-option" onclick="checkQuiz(this, true)">Yin and Yang</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">The 5 Virtues (Jen, Yi, Li…)</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">Dukkha</div>
+      </div>
+
+      <div class="quiz-q">
+        <p>4. What % of happiness comes from intentional activity (Lyubomirsky)?</p>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">10%</div>
+        <div class="quiz-option" onclick="checkQuiz(this, true)">40%</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">50%</div>
+      </div>
+
+      <div class="quiz-q">
+        <p>5. Who introduced "Flow" to psychology?</p>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">Ed Diener</div>
+        <div class="quiz-option" onclick="checkQuiz(this, true)">Mihaly Csikszentmihalyi</div>
+        <div class="quiz-option" onclick="checkQuiz(this, false)">Carl Rogers</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer> for my Malkin Ji <3 </footer>
+
+<script>
+  function openTab(evt, tabId){
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+
+  function checkQuiz(element, isCorrect){
+    const siblings = element.parentElement.querySelectorAll('.quiz-option');
+    siblings.forEach(opt => opt.classList.remove('correct', 'wrong'));
+    element.classList.add(isCorrect ? 'correct' : 'wrong');
+  }
+</script>
+
+</body>
+</html>
